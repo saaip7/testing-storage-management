@@ -11,9 +11,20 @@ exports.createItem = async (req, res) => {
     }
 };
 
+// get 10 latest items
 exports.getLatesItems = async (req, res) => {
     try {
         const items = await Item.find().sort({createdAt: -1}).limit(10);
+        res.status(200).json(items);
+    } catch(error) {
+        res.status(500).json({error:error.message});
+    }
+}
+
+// get all latest items 
+exports.getAllItems = async (req, res) => {
+    try {
+        const items = await Item.find().sort({createdAt: -1});
         res.status(200).json(items);
     } catch(error) {
         res.status(500).json({error:error.message});
