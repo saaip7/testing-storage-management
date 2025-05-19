@@ -39,7 +39,7 @@ describe('Integration Tests - Item API', () => {
     it('should fail to create item (missing name)', async () => {
       const res = await request(app)
         .post('/api/items')
-        .send({ quantity: 5 });
+        .send({quantity: 5 });
   
       expect(res.statusCode).toBe(400);
       expect(res.body.error).toMatch(/Nama barang wajib diisi/);
@@ -49,7 +49,7 @@ describe('Integration Tests - Item API', () => {
         const now = new Date();
         const items = Array.from({ length: 15 }, (_, i) => ({
           name: `Item ${i}`,
-          quantity: i,
+          quantity: i+1,
           createdAt: new Date(now.getTime() + i * 1000) // 1 detik beda-beda
         }));
         await Item.insertMany(items);
@@ -93,7 +93,7 @@ describe('Integration Tests - Item API', () => {
 
       // memastikan responnya 200 OK
       expect(deleteRes.statusCode).toBe(200);
-      expect(deleteRes.body.message).toBe("Item berhasil dihapus");
+      expect(deleteRes.body.message).toBe("Item berhasil dihapus!");
 
       // memastikan item sudah benar-beanr terhapus dan tidak ada di database
       const itemInDb = await Item.findById(itemId);
@@ -108,7 +108,7 @@ describe('Integration Tests - Item API', () => {
         const res = await request(app).delete(`/api/items/${fakeId}`);
         // memastikan responnya 404 NOT FOUND
         expect(res.statusCode).toBe(404);
-        expect(res.body.error).toBe("Item tidak ditemukan");
+        expect(res.body.error).toBe("Item tidak ditemukan!");
     });
 });
 

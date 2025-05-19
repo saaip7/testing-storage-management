@@ -1,4 +1,4 @@
-const {createItem, getLatestItems, getAllItems} = require("../../src/controllers/controllers");
+const {createItem, getLatestItems, getAllItems, deleteItem} = require("../../src/controllers/controllers");
 const Item = require("../../src/models/models");
 
 jest.mock("../../src/models/models");
@@ -60,7 +60,7 @@ describe("Item Controllers - Unit Test", () => {
 
             expect(Item.findByIdAndDelete).toHaveBeenCalledWith(req.params.id);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ message: "Item berhasil dihapus!" });
+            expect(res.json).toHaveBeenCalledWith({ message: "Item berhasil dihapus!", item: deletedMockItem});
         });
 
         // case 2: ID tidak ditemukan (format id valid)
@@ -77,7 +77,5 @@ describe("Item Controllers - Unit Test", () => {
             expect(res.status).toHaveBeenCalledWith(404);
             expect(res.json).toHaveBeenCalledWith({ error: "Item tidak ditemukan!" });
         });
-
-        //case format ID tidak valid tidak perlu diuji karena validasi tersebut dilakukan di middleware dan tidak akan masuk ke controller
     });
 });
