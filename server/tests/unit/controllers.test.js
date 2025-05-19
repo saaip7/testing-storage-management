@@ -78,4 +78,66 @@ describe("Item Controllers - Unit Test", () => {
             expect(res.json).toHaveBeenCalledWith({ error: "Item tidak ditemukan!" });
         });
     });
+
+    // test case untuk error handling
+    describe("Item Controllers - Error Handling", () => {
+        let req, res;
+
+        beforeEach(() => {
+            req = { body: {}, params: {} };
+            res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
+
+        Item.find = jest.fn();
+        Item.findByIdAndDelete = jest.fn();
+        });
+
+        it("should return 400 if error occurs while creating item", async () => {
+            req.body = { name: "Baygon", quantity: 5 };
+            Item.mockImplementation(() => ({
+                save: jest.fn().mockRejectedValue(new Error("Bad Request"))
+            }));
+
+            await createItem(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({ error: "Bad Request" });
+        });
+
+        it("should return 500 if error occurs while get latest items", async () => {
+            Item.find.mockImplementation(() => ({
+                sort: () => ({
+                    limit: () => Promise.reject(new Error("Internal Server Error"))
+                })
+            }));
+
+            await getLatestItems(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+        });
+
+        it("should return 500 if error occurs while get all items", async () => {
+            Item.find.mockImplementation(() => ({
+                sort: () => Promise.reject(new Error("Internal Server Error"))
+            }));
+
+            await getAllItems(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+        });
+
+        it("should return 500 if error occurs while deleting item", async () => {
+            req.params.id = "663e98c51228c2a7b3d2b59e";
+            Item.findByIdAndDelete.mockRejectedValue(new Error("Internal Server Error"));
+
+            await deleteItem(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+        });
+    });
 });
