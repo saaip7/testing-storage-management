@@ -1,4 +1,4 @@
-const Item = require("./models");
+const Item = require("../models/models");
 
 exports.createItem = async (req, res) => {
     try {
@@ -12,7 +12,7 @@ exports.createItem = async (req, res) => {
 };
 
 // get 10 latest items
-exports.getLatesItems = async (req, res) => {
+exports.getLatestItems = async (req, res) => {
     try {
         const items = await Item.find().sort({createdAt: -1}).limit(10);
         res.status(200).json(items);
