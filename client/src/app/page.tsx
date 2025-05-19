@@ -57,7 +57,7 @@ export default function WarehousePage() {
       if (currentPage === 1) {
         loadItems(1)
       }
-    }, 10000) // 30 seconds
+    }, 20000) 
 
     return () => clearInterval(intervalId)
   }, [currentPage])
@@ -110,7 +110,7 @@ export default function WarehousePage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 px-[5vw]">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Warehouse Stock Management</h1>
         <Button onClick={() => setIsAddSheetOpen(true)}>
