@@ -13,8 +13,20 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { Trash2, ChevronLeft, ChevronRight } from "lucide-react"
+import { Trash2, ChevronLeft, ChevronRight, Eye } from "lucide-react"
 import type { Item } from "@/lib/types"
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
 
 interface ItemTableProps {
   items: Item[]
@@ -27,6 +39,7 @@ interface ItemTableProps {
 
 export function ItemTable({ items, loading, onDelete, currentPage, totalPages, onPageChange }: ItemTableProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null)
 
   const handleDeleteClick = (id: string) => {
     setDeleteId(id)
@@ -68,13 +81,13 @@ export function ItemTable({ items, loading, onDelete, currentPage, totalPages, o
           <TableCell>
             <div className="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
           </TableCell>
-          <TableCell>
+          <TableCell className="hidden md:table-cell">
             <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
           </TableCell>
-          <TableCell>
+          <TableCell className="hidden md:table-cell">
             <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
           </TableCell>
-          <TableCell>
+          <TableCell className="hidden md:table-cell">
             <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
           </TableCell>
           <TableCell className="text-right">
@@ -85,9 +98,113 @@ export function ItemTable({ items, loading, onDelete, currentPage, totalPages, o
     </>
   )
 
+  // Mobile card view
+  const MobileCardView = () => (
+    <div className="space-y-4 md:hidden">
+      {loading ? (
+        [...Array(3)].map((_, index) => (
+          <Card key={`mobile-skeleton-${index}`} className="animate-pulse">
+            <CardContent className="p-4">
+              <div className="space-y-3">
+                <div className="h-4 w-3/4 bg-gray-200 rounded"></div>
+                <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
+                <div className="h-4 w-2/3 bg-gray-200 rounded"></div>
+                <div className="flex justify-end">
+                  <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))
+      ) : items.length === 0 ? (
+        <Card>
+          <CardContent className="p-6 text-center text-gray-500">No items found. Add your first item!</CardContent>
+        </Card>
+      ) : (
+        items.map((item, index) => (
+          <Card key={item._id}>
+            <CardContent className="p-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="font-medium">{item.name}</h3>
+                  <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {formatDate(item.createdAt)} at {formatTime(item.createdAt)}
+                  </p>
+                </div>
+                <div className="flex space-x-2">
+                  <Drawer>
+                    <DrawerTrigger asChild>
+                      <Button variant="ghost" size="icon" onClick={() => setSelectedItem(item)}>
+                        <Eye className="h-4 w-4 text-gray-500" />
+                      </Button>
+                    </DrawerTrigger>
+                    <DrawerContent>
+                      <DrawerHeader>
+                        <DrawerTitle>Item Details</DrawerTitle>
+                        <DrawerDescription>View complete item information</DrawerDescription>
+                      </DrawerHeader>
+                      {selectedItem && (
+                        <div className="px-4 py-2">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <p className="text-sm font-medium text-gray-500">Item Name</p>
+                              <p className="text-lg font-medium">{selectedItem.name}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-500">Quantity</p>
+                              <p className="text-lg font-medium">{selectedItem.quantity}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-500">Date Added</p>
+                              <p>{formatDate(selectedItem.createdAt)}</p>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-500">Time Added</p>
+                              <p>{formatTime(selectedItem.createdAt)}</p>
+                            </div>
+                            <div className="col-span-2">
+                              <p className="text-sm font-medium text-gray-500">Item ID</p>
+                              <p className="text-xs font-mono break-all">{selectedItem._id}</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      <DrawerFooter>
+                        <Button
+                          variant="destructive"
+                          onClick={() => {
+                            handleDeleteClick(selectedItem!._id)
+                            ;(document.querySelector("[data-drawer-close]") as HTMLElement | null)?.click()
+                          }}
+                        >
+                          Delete Item
+                        </Button>
+                        <DrawerClose asChild>
+                          <Button variant="outline">Close</Button>
+                        </DrawerClose>
+                      </DrawerFooter>
+                    </DrawerContent>
+                  </Drawer>
+                  <Button variant="ghost" size="icon" onClick={() => handleDeleteClick(item._id)}>
+                    <Trash2 className="h-4 w-4 text-red-500" />
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))
+      )}
+    </div>
+  )
+
   return (
     <>
-      <div className="rounded-md border">
+      {/* Mobile card view */}
+      <MobileCardView />
+
+      {/* Desktop table view */}
+      <div className="rounded-md border hidden md:block">
         <Table>
           <TableHeader>
             <TableRow>

@@ -6,6 +6,11 @@ const validateItem = (req, res, next) => {
         return res.status(400).json({error: "Data tidak boleh kosong. Nama dan jumlah barang wajib diisi"});
     }
 
+    // cek nama
+    if(!name) {
+        return res.status(400).json({error: "Nama barang wajib diisi"});
+    }
+
    // Cek nama kosong
    if (!name) {
         return res.status(400).json({ error: "Nama barang wajib diisi" });
@@ -18,10 +23,8 @@ const validateItem = (req, res, next) => {
 
 // Cek nama hanya angka
     if (!isNaN(name)) {
-        return res.status(400).json({error: "Nama barang tidak boleh berupa angka saja"
-        });
+        return res.status(400).json({ error: "Nama barang tidak boleh berupa angka saja" });
     }
-
 
     if(name.length > 100) {
         return res.status(400).json({error: "Nama barang maksimal 100 karakter"});

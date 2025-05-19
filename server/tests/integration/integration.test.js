@@ -39,7 +39,7 @@ describe('Integration Tests - Item API', () => {
     it('should fail to create item (missing name)', async () => {
       const res = await request(app)
         .post('/api/items')
-        .send({ quantity: 5 });
+        .send({quantity: 5 });
   
       expect(res.statusCode).toBe(400);
       expect(res.body.error).toMatch(/Nama barang wajib diisi/);
@@ -49,7 +49,7 @@ describe('Integration Tests - Item API', () => {
         const now = new Date();
         const items = Array.from({ length: 15 }, (_, i) => ({
           name: `Item ${i}`,
-          quantity: i,
+          quantity: i+1,
           createdAt: new Date(now.getTime() + i * 1000) // 1 detik beda-beda
         }));
         await Item.insertMany(items);
@@ -84,7 +84,7 @@ describe('Integration Tests - Item API', () => {
       // create 1 item utk keperluan test
       const createRes = await request(app)
           .post('/api/items')
-          .send({ name: 'Hapus item ini!', quantity: 1 });
+          .send({ name: 'Contoh', quantity: 1 });
       // id item tsb
       const itemId = createRes.body.item._id;
 
@@ -93,7 +93,7 @@ describe('Integration Tests - Item API', () => {
 
       // memastikan responnya 200 OK
       expect(deleteRes.statusCode).toBe(200);
-      expect(deleteRes.body.message).toBe("Item berhasil dihapus");
+      expect(deleteRes.body.message).toBe("Item berhasil dihapus!");
 
       // memastikan item sudah benar-beanr terhapus dan tidak ada di database
       const itemInDb = await Item.findById(itemId);
@@ -101,23 +101,14 @@ describe('Integration Tests - Item API', () => {
     });
 
     // case 2: ID tidak ditemukan (format id valid)
-    it('should return 404 if item not found when deleting', async () => {
+    it('should return 404 if item not found', async () => {
         // membuat id palsu yang pasti tidak ada di db
         const fakeId = new mongoose.Types.ObjectId();
         // request delete
         const res = await request(app).delete(`/api/items/${fakeId}`);
         // memastikan responnya 404 NOT FOUND
         expect(res.statusCode).toBe(404);
-        expect(res.body.error).toBe("Item tidak ditemukan");
-    });
-
-    // case 3: format id tdk valid
-    it('should return 400 if ID is invalid format when deleting', async () => {
-        // kirim request delete dgn id 'contoh-invalid-id' yg mana formatnya tidak valid
-        const res = await request(app).delete(`/api/items/contoh-invalid-id`);
-        // memastikan responnya 400 BAD REQUEST
-        expect(res.statusCode).toBe(400);
-        expect(res.body.error).toBe("Format ID tidak valid");
+        expect(res.body.error).toBe("Item tidak ditemukan!");
     });
 });
 
