@@ -76,5 +76,48 @@ describe('Integration Tests - Item API', () => {
       expect(res.body.length).toBe(3);
       expect(res.body[0].name).toBe('Item C'); // Descending
     });
+
+    // test endpoint /api/items/:id
+
+    // case 1: berhasil terhapus
+    it('should delete an item successfully', async () => {
+      // create 1 item utk keperluan test
+      const createRes = await request(app)
+          .post('/api/items')
+          .send({ name: 'Hapus item ini!', quantity: 1 });
+      // id item tsb
+      const itemId = createRes.body.item._id;
+
+      // kirim request delete item
+      const deleteRes = await request(app).delete(`/api/items/${itemId}`);
+
+      // memastikan responnya 200 OK
+      expect(deleteRes.statusCode).toBe(200);
+      expect(deleteRes.body.message).toBe("Item berhasil dihapus");
+
+      // memastikan item sudah benar-beanr terhapus dan tidak ada di database
+      const itemInDb = await Item.findById(itemId);
+      expect(itemInDb).toBeNull();
+    });
+
+    // case 2: ID tidak ditemukan (format id valid)
+    it('should return 404 if item not found when deleting', async () => {
+        // membuat id palsu yang pasti tidak ada di db
+        const fakeId = new mongoose.Types.ObjectId();
+        // request delete
+        const res = await request(app).delete(`/api/items/${fakeId}`);
+        // memastikan responnya 404 NOT FOUND
+        expect(res.statusCode).toBe(404);
+        expect(res.body.error).toBe("Item tidak ditemukan");
+    });
+
+    // case 3: format id tdk valid
+    it('should return 400 if ID is invalid format when deleting', async () => {
+        // kirim request delete dgn id 'contoh-invalid-id' yg mana formatnya tidak valid
+        const res = await request(app).delete(`/api/items/contoh-invalid-id`);
+        // memastikan responnya 400 BAD REQUEST
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe("Format ID tidak valid");
+    });
 });
 

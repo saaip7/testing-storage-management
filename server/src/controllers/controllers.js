@@ -31,3 +31,21 @@ exports.getAllItems = async (req, res) => {
     }
 }
 
+// delete item
+exports.deleteItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // delete item
+        const deletedItem = await Item.findByIdAndDelete(id);
+
+        // jika item sudah dihapus sebelumnya --> pesan error
+        if (!deletedItem) {
+            return res.status(404).json({ error: "Item tidak ditemukan!" });
+        }
+        // jika id ditemukan di db --> hapus item
+        res.status(200).json({ message: "Item berhasil dihapus!", item: deletedItem });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
