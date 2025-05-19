@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1747632816525" clover="3.2.0">
-  <project timestamp="1747632816525" name="All files">
+<coverage generated="1747638875473" clover="3.2.0">
+  <project timestamp="1747638875473" name="All files">
     <metrics statements="18" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3" elements="21" coveredelements="18" complexity="0" loc="18" ncloc="18" packages="1" files="1" classes="1"/>
     <file name="controllers.js" path="C:\Users\Nadia\Documents\Teti\Semester 6\Pengujian Perangkat Lunak\testing-storage-management\server\src\controllers\controllers.js">
       <metrics statements="18" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>

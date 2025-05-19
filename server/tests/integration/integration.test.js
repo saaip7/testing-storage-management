@@ -27,7 +27,7 @@ afterAll(async () => {
 describe('Integration Tests - Item API', () => {
     it('should create an item successfully (valid data)', async () => {
       const res = await request(app)
-        .post('/api/createItems')
+        .post('/api/items')
         .send({ name: 'Sabun', quantity: 10 });
   
       expect(res.statusCode).toBe(201);
@@ -38,7 +38,7 @@ describe('Integration Tests - Item API', () => {
   
     it('should fail to create item (missing name)', async () => {
       const res = await request(app)
-        .post('/api/createItems')
+        .post('/api/items')
         .send({ quantity: 5 });
   
       expect(res.statusCode).toBe(400);
@@ -55,7 +55,7 @@ describe('Integration Tests - Item API', () => {
         await Item.insertMany(items);
         
   
-      const res = await request(app).get('/api/getLatestItems');
+      const res = await request(app).get('/api/items');
   
       expect(res.statusCode).toBe(200);
       expect(res.body.length).toBe(10);
@@ -70,7 +70,7 @@ describe('Integration Tests - Item API', () => {
         await Item.create({ name: 'Item C', quantity: 3 });
         
   
-      const res = await request(app).get('/api/getItems');
+      const res = await request(app).get('/api/items/all');
   
       expect(res.statusCode).toBe(200);
       expect(res.body.length).toBe(3);

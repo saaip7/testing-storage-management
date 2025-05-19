@@ -3,8 +3,8 @@ const { createItem, getLatestItems, getAllItems } = require('../controllers/cont
 const validateItem = require('../../middleware/validateItem');
 const router = express.Router();
 
-router.post('/createItems', validateItem, createItem);
-router.get('/getLatestItems', getLatestItems);
-router.get('/getItems', getAllItems);
+router.post('/items', validateItem, createItem);
+router.get('/items', getLatestItems);
+router.get('/items/all', getAllItems);
 
 module.exports = router;
