@@ -9,6 +9,8 @@ import { fetchItems, addItem, deleteItem } from "@/lib/api"
 import { useToast } from "@/hooks/use-toast"
 import type { Item } from "@/lib/types"
 import { Toaster } from "@/components/ui/toaster"
+import { Layout } from "@/components/Layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function WarehousePage() {
   const [items, setItems] = useState<Item[]>([])
@@ -110,27 +112,64 @@ export default function WarehousePage() {
   }
 
   return (
-    <div className="container mx-auto py-10 px-[5vw]">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Warehouse Stock Management</h1>
-        <Button onClick={() => setIsAddSheetOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Item
-        </Button>
+      <div className="space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Inventory Management</h1>
+            <p className="text-muted-foreground">Manage your warehouse stock items</p>
+          </div>
+          <Button onClick={() => setIsAddSheetOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Item
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Total Items</CardTitle>
+              <CardDescription>All inventory items</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalItems}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Current Page</CardTitle>
+              <CardDescription>Items per page: {itemsPerPage}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {currentPage} of {totalPages}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Last Updated</CardTitle>
+              <CardDescription>Auto-refreshes every 20s</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{new Date().toLocaleTimeString()}</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <ItemTable
+          items={items}
+          loading={loading}
+          onDelete={handleDeleteItem}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+
+        <AddItemSheet open={isAddSheetOpen} onOpenChange={setIsAddSheetOpen} onSubmit={handleAddItem} />
+
+        <Toaster />
       </div>
 
-      <ItemTable
-        items={items}
-        loading={loading}
-        onDelete={handleDeleteItem}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
 
-      <AddItemSheet open={isAddSheetOpen} onOpenChange={setIsAddSheetOpen} onSubmit={handleAddItem} />
-
-      <Toaster />
-    </div>
   )
 }

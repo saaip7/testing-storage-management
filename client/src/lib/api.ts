@@ -59,21 +59,18 @@ export async function addItem(item: NewItem): Promise<Item> {
     })
 
     if (!response.ok) {
-      // Handle specific error cases
-      if (response.status === 400) {
+      // Try to get error message from backend
+      let errorMsg = `Failed to add item: ${response.statusText}`
+      try {
         const errorData = await response.json()
-        throw new Error(errorData.message || "Invalid item data")
-      } else if (response.status === 409) {
-        throw new Error("Item already exists")
-      } else if (response.status === 500) {
-        throw new Error("Server error occurred")
-      }
-      throw new Error(`Failed to add item: ${response.statusText}`)
+        if (errorData.error) errorMsg = errorData.error
+        if (errorData.message) errorMsg = errorData.message
+      } catch {}
+      throw new Error(errorMsg)
     }
 
     return response.json()
   } catch (error) {
-    // Re-throw the error to be handled by the component
     throw error
   }
 }
