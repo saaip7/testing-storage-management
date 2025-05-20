@@ -158,13 +158,19 @@ npm run dev
 
 ![API Test - Fetch Items](https://i.imghippo.com/files/pIq5232vSY.jpeg)
 
-> Respon 200 ok
+> Respon 200 OK
+
+- Post Items API Testing
+
+![API Test - Post Items](https://i.imghippo.com/files/sr1776j.jpeg)
+
+> Respon 200 OK
 
 - Delete Items API Testing
 
 ![API Test - Delete Items](https://i.imghippo.com/files/z2330g.jpeg)
 
-> Respon 200 ok
+> Respon 200 OK
 
 
 
