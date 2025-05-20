@@ -161,4 +161,15 @@ describe('Middleware validateItem - Unit Test', () => {
 
         expect(res.status).toHaveBeenCalledWith(400);
     });
+
+    //17. if name contains only numbers
+    it('should return 400 if name contains only numbers', () => {
+        req.body = { name: '123456', quantity: 1 };
+    
+        validateItem(req, res, next);
+    
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: "Nama barang tidak boleh berupa angka saja" });
+    });
+    
 });

@@ -44,6 +44,48 @@ describe('Integration Tests - Item API', () => {
       expect(res.statusCode).toBe(400);
       expect(res.body.error).toMatch(/Nama barang wajib diisi/);
     });
+
+    it('should fail to create item (missing quantity)', async () => {
+      const res = await request(app)
+        .post('/api/items')
+        .send({name: "rinso" });
+  
+      expect(res.statusCode).toBe(400);
+      expect(res.body.error).toMatch(/Jumlah barang wajib diisi/);
+    });
+    
+
+    // TC: nama lebih dari 100 karakter
+it('should fail to create item with name longer than 100 characters', async () => {
+  const longName = 'a'.repeat(101);
+  const res = await request(app)
+    .post('/api/items')
+    .send({ name: longName, quantity: 5 });
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body.error).toMatch(/maksimal 100 karakter/);
+});
+
+// TC: quantity = 0
+it('should fail to create item with quantity 0', async () => {
+  const res = await request(app)
+    .post('/api/items')
+    .send({ name: 'Sabun', quantity: 0 });
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body.error).toMatch(/angka positif/);
+});
+
+// TC: quantity negatif
+it('should fail to create item with negative quantity', async () => {
+  const res = await request(app)
+    .post('/api/items')
+    .send({ name: 'Sabun', quantity: -5 });
+
+  expect(res.statusCode).toBe(400);
+  expect(res.body.error).toMatch(/angka positif/);
+});
+
   
     it('should return latest 10 items', async () => {
         const now = new Date();
@@ -76,6 +118,8 @@ describe('Integration Tests - Item API', () => {
       expect(res.body.length).toBe(3);
       expect(res.body[0].name).toBe('Item C'); // Descending
     });
+
+    
 
     // test endpoint /api/items/:id
 

@@ -11,11 +11,6 @@ const validateItem = (req, res, next) => {
         return res.status(400).json({error: "Nama barang wajib diisi"});
     }
 
-   // Cek nama kosong
-   if (!name) {
-        return res.status(400).json({ error: "Nama barang wajib diisi" });
-    }
-
     //cek nama harus string
     if(typeof name !== "string") {
         return res.status(400).json({error:"Nama harus berupa string"});
@@ -35,7 +30,7 @@ const validateItem = (req, res, next) => {
         return res.status(400).json({error: "Jumlah barang wajib diisi"});
     }
 
-    //validasi jumlah angka harus positif (tapi boleh 0)
+    //validasi jumlah angka harus positif
     if(typeof quantity !== 'number' || quantity <=0) {
         return res.status(400).json({error: "Jumlah barang harus berupa angka positif"});
     }

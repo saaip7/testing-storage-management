@@ -2,5 +2,5 @@ module.exports = {
     testEnvironment: "node",
     coverageDirectory: "cpverage",
     collectCoverage: true,
-    collectCoverageFrom: ["src/controllers/**/*.js"]
+    collectCoverageFrom: ["src/controllers/**/*.js", "middleware/**/*.js"]
 }
