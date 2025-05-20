@@ -28,11 +28,11 @@ Aplikasi harus menyediakan:
 
 ## 👥 Pembagian Role & Tanggung Jawab
 
-| Nama        | Peran                  | Deskripsi Tugas                                                                                   |
-| ----------- | ---------------------- | ------------------------------------------------------------------------------------------------- |
-| Mahasiswa A | **Frontend Developer** | Implementasi UI dengan Next.js & shadcn/ui, validasi form, integrasi API                          |
-| Mahasiswa B | **Backend Developer**  | Pembuatan endpoint API, koneksi ke database MongoDB, validasi server                              |
-| Mahasiswa C | **QA Tester**          | Menyusun user requirement, acceptance criteria, menulis & menjalankan pengujian (unit & API test) |
+| Nama        | NIM                  | Peran                  | Deskripsi Tugas                                                                                   |
+| ----------- | ---------------------| ---------------------- | ------------------------------------------------------------------------------------------------- |
+| Syaifullah Hilmi Ma'arij | 22/497775/TK/54568 | **Frontend Developer** | Pembuatan frontend dengan validasi form, integrasi API, unit test frontend                          |
+| Fatimah Nadia Eka Putri | 22/497876/TK/54588 | **Backend Developer**  | Pembuatan endpoint API, koneksi ke database MongoDB, validasi server, unit test backend                              |
+| Fahrin Ulya Nisrina | 22/497708/TK/54557 | **QA Tester**          | Menyusun user requirement, acceptance criteria, menulis & menjalankan pengujian (E2E & API test) |
 
 
 ## 🎤 Link Presentasi
@@ -154,9 +154,17 @@ npm run dev
 
 ### 🧪 Screenshot Hasil API Test
 
-> 💡 Ganti gambar ini dengan hasil test menggunakan Postman / Thunder Client
+- Fetch Items API Testing
 
-![API Test](./client/public/screenshots/api-test-placeholder.png)
+![API Test - Fetch Items](https://i.imghippo.com/files/pIq5232vSY.jpeg)
+
+> Respon 200 ok
+
+- Delete Items API Testing
+
+![API Test - Delete Items](https://i.imghippo.com/files/z2330g.jpeg)
+
+> Respon 200 ok
 
 
 
