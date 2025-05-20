@@ -116,29 +116,29 @@ describe("ItemTable Rendering", () => {
     });
 
     it("calls onDelete with correct id when delete is confirmed", () => {
-  const onDelete = jest.fn();
-  render(
-    <ItemTable
-      items={mockItems}
-      loading={false}
-      onDelete={onDelete}
-      currentPage={1}
-      totalPages={1}
-      onPageChange={jest.fn()}
-    />
-  );
-  // Click the first delete button
-  const deleteButtons = screen.getAllByRole("button", { name: /delete/i });
-  fireEvent.click(deleteButtons[0]);
+      const onDelete = jest.fn();
+      render(
+        <ItemTable
+          items={mockItems}
+          loading={false}
+          onDelete={onDelete}
+          currentPage={1}
+          totalPages={1}
+          onPageChange={jest.fn()}
+        />
+      );
+      // Click the first delete button
+      const deleteButtons = screen.getAllByRole("button", { name: /delete/i });
+      fireEvent.click(deleteButtons[0]);
 
-  // Click the "Delete" button in the confirmation dialog
-  const confirmDeleteButton = screen.getByRole("button", { name: /^delete$/i });
-  fireEvent.click(confirmDeleteButton);
+      // Click the "Delete" button in the confirmation dialog
+      const confirmDeleteButton = screen.getByRole("button", {
+        name: /^delete$/i,
+      });
+      fireEvent.click(confirmDeleteButton);
 
-  // Assert onDelete was called with the correct id
-  expect(onDelete).toHaveBeenCalledWith(mockItems[0]._id);
-});
+      // Assert onDelete was called with the correct id
+      expect(onDelete).toHaveBeenCalledWith(mockItems[0]._id);
+    });
   });
-
-  
 });
