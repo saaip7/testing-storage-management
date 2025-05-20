@@ -1,4 +1,4 @@
-const {createItem, getLatestItems, getAllItems} = require("../../src/controllers/controllers");
+const {createItem, getLatestItems, getAllItems, deleteItem} = require("../../src/controllers/controllers");
 const Item = require("../../src/models/models");
 
 jest.mock("../../src/models/models");
@@ -60,7 +60,7 @@ describe("Item Controllers - Unit Test", () => {
 
             expect(Item.findByIdAndDelete).toHaveBeenCalledWith(req.params.id);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ message: "Item berhasil dihapus!" });
+            expect(res.json).toHaveBeenCalledWith({ message: "Item berhasil dihapus!", item: deletedMockItem});
         });
 
         // case 2: ID tidak ditemukan (format id valid)
@@ -77,7 +77,67 @@ describe("Item Controllers - Unit Test", () => {
             expect(res.status).toHaveBeenCalledWith(404);
             expect(res.json).toHaveBeenCalledWith({ error: "Item tidak ditemukan!" });
         });
+    });
 
-        //case format ID tidak valid tidak perlu diuji karena validasi tersebut dilakukan di middleware dan tidak akan masuk ke controller
+    // test case untuk error handling
+    describe("Item Controllers - Error Handling", () => {
+        let req, res;
+
+        beforeEach(() => {
+            req = { body: {}, params: {} };
+            res = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            };
+
+        Item.find = jest.fn();
+        Item.findByIdAndDelete = jest.fn();
+        });
+
+        it("should return 400 if error occurs while creating item", async () => {
+            req.body = { name: "Baygon", quantity: 5 };
+            Item.mockImplementation(() => ({
+                save: jest.fn().mockRejectedValue(new Error("Bad Request"))
+            }));
+
+            await createItem(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({ error: "Bad Request" });
+        });
+
+        it("should return 500 if error occurs while get latest items", async () => {
+            Item.find.mockImplementation(() => ({
+                sort: () => ({
+                    limit: () => Promise.reject(new Error("Internal Server Error"))
+                })
+            }));
+
+            await getLatestItems(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+        });
+
+        it("should return 500 if error occurs while get all items", async () => {
+            Item.find.mockImplementation(() => ({
+                sort: () => Promise.reject(new Error("Internal Server Error"))
+            }));
+
+            await getAllItems(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+        });
+
+        it("should return 500 if error occurs while deleting item", async () => {
+            req.params.id = "663e98c51228c2a7b3d2b59e";
+            Item.findByIdAndDelete.mockRejectedValue(new Error("Internal Server Error"));
+
+            await deleteItem(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+        });
     });
 });

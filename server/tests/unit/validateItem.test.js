@@ -1,6 +1,6 @@
-const validateItem = require('../../../middleware/validateItem');
+const validateItem = require('../../middleware/validateItem');
 
-describe('Middleware validateItem - Full 16 Test Cases', () => {
+describe('Middleware validateItem - Unit Test', () => {
     let req, res, next;
 
     beforeEach(() => {
