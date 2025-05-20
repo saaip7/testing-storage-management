@@ -1,7 +1,7 @@
 import type { Item, NewItem, PaginationResult } from "./types"
 
 // Base URL for API
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL_PROD || "http://localhost:3000/api/items"
+const API_URL = (process.env.NEXT_PUBLIC_BACKEND_URL_PROD || "http://localhost:5000") + "/api/items"
 
 // Fetch all items and handle pagination on client side
 export async function fetchItems(page = 1, limit = 10): Promise<PaginationResult> {
