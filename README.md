@@ -168,7 +168,7 @@ npm run dev
 
 - 💡 Frontend Coverage Test
 
-![Backed Test Coverage](https://i.imghippo.com/files/bqNj3074bK.png)
+![Backed Test Coverage](https://i.imghippo.com/files/vrid6702QMk.png)
 > Meskipun seluruh test suite berhasil dijalankan 100% (2 passed dari 2 total) dan semua test case lolos (11/11), hasil coverage masih menunjukkan beberapa bagian berwarna merah. Hal ini terjadi karena pengujian memang difokuskan pada dua komponen utama yaitu AddItemSheet dan ItemTable, yang mencakup validasi form, pengiriman data, render tabel, dan penghapusan item. Komponen lain seperti elemen UI (misalnya card.tsx, sheet.tsx, button.tsx) tidak menjadi fokus karena hanya berperan sebagai presentational component tanpa logic penting. Oleh karena itu, warna merah tidak menandakan kegagalan pengujian, melainkan hanya bagian yang tidak secara langsung disentuh oleh test.
 
 
