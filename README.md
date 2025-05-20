@@ -31,8 +31,8 @@ Aplikasi harus menyediakan:
 | Nama        | NIM                  | Peran                  | Deskripsi Tugas                                                                                   |
 | ----------- | ---------------------| ---------------------- | ------------------------------------------------------------------------------------------------- |
 | Syaifullah Hilmi Ma'arij | 22/497775/TK/54568 | **Frontend Developer** | Pembuatan frontend dengan validasi form, integrasi API, unit test frontend                          |
-| Fatimah Nadia Eka Putri | 22/497876/TK/54588 | **Backend Developer**  | Pembuatan endpoint API, koneksi ke database MongoDB, validasi server, unit test backend                              |
-| Fahrin Ulya Nisrina | 22/497708/TK/54557 | **QA Tester**          | Menyusun user requirement, acceptance criteria, menulis & menjalankan pengujian (E2E & API test) |
+| Fatimah Nadia Eka Putri | 22/497876/TK/54588 | **Backend Developer**  | Pembuatan backend seperti endpoint API, koneksi ke database MongoDB, validasi server, unit test backend                              |
+| Fahrin Ulya Nisrina | 22/497708/TK/54557 | **QA Tester**          | Menyusun user requirement serta fiturnya, acceptance criteria, menulis & menjalankan pengujian (E2E & API test) |
 
 
 ## 🎤 Link Presentasi
