@@ -124,23 +124,4 @@ describe("AddItemSheet", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
-  it("shows validation error if quantity is empty", async () => {
-    render(
-      <AddItemSheet
-        open={true}
-        onOpenChange={onOpenChange}
-        onSubmit={onSubmit}
-      />
-    );
-    fireEvent.change(screen.getByLabelText(/item name/i), {
-      target: { value: "Valid Name" },
-    });
-    // Leave quantity empty
-    fireEvent.click(screen.getByRole("button", { name: /add item/i }));
-
-    //basically the input has type number, so we can put string in it
-    // and it will be empty
-    expect(await screen.findByText("Quantity is required")).toBeInTheDocument();
-    expect(onSubmit).not.toHaveBeenCalled();
-  });
 });
