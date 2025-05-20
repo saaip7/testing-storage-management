@@ -14,7 +14,8 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://storage-management-server.vercel.app'
+    'https://storage-management-server.vercel.app',
+    'https://ppl-storage-management.vercel.app',
   ]
 }));
 app.use(express.json());
