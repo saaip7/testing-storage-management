@@ -38,7 +38,7 @@ Aplikasi harus menyediakan:
 ## 🎤 Link Presentasi
 Berikut link presentasi
 
-[🔗 Buka Slide Presentasi Tim](https://example.com/link-google-slide-anda)
+[🔗 Buka Slide Presentasi Tim](https://www.canva.com/design/DAGn4wsrTp0/Yp5OIYZAeD4wVzj-6OR5kQ/edit?utm_content=DAGn4wsrTp0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 
 ---
